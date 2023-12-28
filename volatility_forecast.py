@@ -13,14 +13,11 @@ def garch_volatility_forecast(returns, rescale_factor=100):
     Returns:
     - forecasted_volatility (float): The forecasted next period volatility, rescaled back to original scale.
     '''
-    # Rescale returns
     rescaled_returns = returns * rescale_factor
 
-    # Define and fit a GARCH(1,1) model on rescaled data
     garch_model = arch_model(rescaled_returns, vol='Garch', p=1, q=1)
     res = garch_model.fit(disp='off')
     
-    # Forecast the next period volatility and rescale back
     forecast = res.forecast(horizon=1)
     forecasted_volatility = np.sqrt(forecast.variance.iloc[-1] / (rescale_factor**2)).iloc[0]
     return forecasted_volatility
@@ -41,7 +38,6 @@ def simple_moving_average_volatility(returns, window=5):
     if not isinstance(returns, pd.Series):
         returns = pd.Series(returns)
 
-    # Calculate the moving average of the squared returns
     squared_returns = returns**2
     sma_volatility = np.sqrt(squared_returns.rolling(window=window).mean())
     return sma_volatility.iloc[-1]

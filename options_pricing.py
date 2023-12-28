@@ -41,24 +41,20 @@ def black_scholes_put(S, K, T, r, sigma):
     return put_price
 
 
-# Sample historical ETF prices (hypothetical data)
 historical_prices = np.array([100, 101, 102, 103, 102, 101, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110])
 
-# Calculate log returns
 returns = np.log(historical_prices[1:] / historical_prices[:-1])
 
-# Forecast volatility using GARCH or SMA model
+# You can use either the GARCH or SMA model for this example
 sigma_garch = garch_volatility_forecast(returns)
 sigma_sma = simple_moving_average_volatility(returns)
 
-# Black-Scholes variables (example values)
-S = historical_prices[-1]  # Current price of the ETF
-K = 105  # Strike price of the option
-T = 1/12  # Time to expiration in years (1 month)
-r = 0.00  # Annual risk-free interest rate (0%)
-sigma = sigma_garch  # Using GARCH forecasted volatility
+S = historical_prices[-1]
+K = 105 
+T = 1/12
+r = 0.00
+sigma = sigma_garch
 
-# Calculate call option price
 call_price = black_scholes_call(S, K, T, r, sigma)
 print("Call Option Price:", call_price)
 
